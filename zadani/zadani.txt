@@ -1,0 +1,20 @@
+Ahoj Tome,
+nakreslil jsem přibližnou představu jak by ten frontend mohl vypadat. 
+
+- snadné překlikávání mezi třemi stránkami (PAGE1, PAGE2, PAGE3), když by to překlikávání bylo pomocí Javascriptu tak asi lepší, ale klidně to můžou být 3 samostatné statické stránky
+
+- PAGE1 - 2 inputboxy, tlačítko, text
+
+- PAGE 2 - tlačítka, po jejichž stisknutí se Javascriptem pošle informace o číslo tlačítka na server. Stisknuté tlačítko se nějak podbarví, aby bylo jasné, které je stisknuté. Na začátku není žádné stisknuté. Uživatel mačká tlačítka a čísle se sypou AJAXem na server. Ideálně variantně 2, 3, 4, 5 tlačítek aby to na běžnym mobilu slušně vypadalo. Samotná tlačítka by asi byly čtvercové obrázky, to by mi dalo největší flexibilitu v grafice.
+
+- PAGE 3 - klasický select, po stisknutí tlačítka se odesílá informace vybraném optionu. Obsah by se ovšem generoval na základě JSONu který by se AJAXem načetl ze serveru ,a to při 
+1) zobrazení stránky
+2) po odeslání stiskem Odeslat
+Ten JSON by vypadal nejak takhle, snad tu notaci moc nepletu - proste horni text a pole s optionama
+
+{
+  "headertext" : "nejaky citelny text",
+  "options" : ["option1","option2","option3","option4"]
+}
+
+Pole options muze byt prazdne, pak se zobrazi jen headertext

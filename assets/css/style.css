@@ -1,0 +1,21 @@
+#login-form, #options-form {
+    margin-bottom: 2em;
+}
+
+#options-forn-checkbox-area {
+    margin-bottom: 2em;
+}
+
+.container-1 {
+    max-width: 320px;
+}
+
+
+@media (max-width: 480px) {
+
+
+}
+
+@media (max-width: 1024px) {
+
+}
