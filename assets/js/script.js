@@ -4,10 +4,10 @@ $(function () {
     //--CONFIG----------------------------------------------------------------------------
 
     //page2
-    var selecImgServiceUrl = "backend/btnPush.php";
+    var selectImgServiceUrl = "backend/btnPush.php";
 
     //page3
-    var selecOptionServiceUrl = "backend/optionSelect.php";
+    var selectOptionServiceUrl = "backend/optionSelect.php";
 
     //max time to wait to get results (in milliseconds)
     serviceTimeout = 10000;
@@ -130,7 +130,7 @@ $(function () {
             startWait(elemId);
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
-                url: selecImgServiceUrl,
+                url: selectImgServiceUrl,
                 contentType: "application/json",
                 method: "POST",
                 data: JSON.stringify({ "buttonPressed": buttonPressedStr })
@@ -157,7 +157,7 @@ $(function () {
             startWait(formId);
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
-                url: selecOptionServiceUrl,
+                url: selectOptionServiceUrl,
                 contentType: "application/json",
                 method: "POST",
                 data: JSON.stringify({ "optionSelected": optionSelectedStr })
