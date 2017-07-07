@@ -109,15 +109,21 @@ $(function () {
         $('.error').hide();
     }
 
+    function hidePage3Area() {
+        $('#page3-text').hide();
+        $('#options-form-checkbox-area').hide();
+    }
 
     function startWait(elemId) {
         console.log('startWait CALL');
         hideErrorDialog();
+        $('#' + elemId).show();
     }
 
 
     function stopWait(elemId) {
         console.log('stopWait CALL');
+        $('#' + elemId).hide();
     }
 
 
@@ -141,7 +147,7 @@ $(function () {
         }
         // console.log(s);
 
-        $('#' + OptionsAreaId).html(s);
+        $('#' + OptionsAreaId).html(s).show();
         $('#' + textAreaId).html(data.headertext);
     }
 
@@ -159,7 +165,7 @@ $(function () {
         return function () {
             buttonPressedStr = elemId.split('-')[1]; //number part in the name sel-x
 
-            startWait(elemId);
+            startWait('img-wait');
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
                 url: selectImgServiceUrl,
@@ -175,7 +181,7 @@ $(function () {
                     processFail('img-error', errorThrown);
                 })
                 .always(function (data) {
-                    stopWait(elemId);
+                    stopWait('img-wait');
                 });
 
 
@@ -192,7 +198,8 @@ $(function () {
                 return false;
             }
 
-            startWait(formId);
+            hidePage3Area();
+            startWait('options-form-wait');
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
                 url: selectOptionServiceUrl,
@@ -206,10 +213,9 @@ $(function () {
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     processFail('options-form-error', errorThrown);
-                })
-                .always(function (data) {
-                    stopWait(formId);
+                    stopWait('options-form-wait');
                 });
+
 
             return false;
         };
@@ -217,7 +223,8 @@ $(function () {
 
 
     function loadOptions(elemId, optionSelectedStr) {
-            startWait(elemId);
+            hidePage3Area();
+            startWait('options-form-wait');
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
                 url: loadOptionServiceUrl,
@@ -233,7 +240,7 @@ $(function () {
                     processFail('options-form-error', errorThrown);
                 })
                 .always(function (data) {
-                    stopWait(elemId);
+                    stopWait('options-form-wait');
                 });
 
             return false;
