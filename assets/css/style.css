@@ -7,10 +7,13 @@
     margin-bottom: 2em;
 }
 
-#options-forn-checkbox-area {
+#options-form-checkbox-area {
     margin-bottom: 2em;
 }
 
+#options-form-submit {
+    margin-bottom: 1em;
+}
 
 .container, .container-fluid {
     max-width: 1024px;
@@ -23,6 +26,16 @@
 .header {
     padding-left: 0;
     padding-right: 0;
+}
+
+.error {
+    padding: .5em 1em;
+    margin-bottom: 1em;
+    background-color: lightcoral;
+    color: darkred;
+    font-weight: bold;
+    border-radius: .25em;
+    display: none;
 }
 
 .container-1 {

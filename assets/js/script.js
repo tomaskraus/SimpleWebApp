@@ -105,9 +105,14 @@ $(function () {
         }
     }
 
+    function hideErrorDialog() {
+        $('.error').hide();
+    }
+
 
     function startWait(elemId) {
         console.log('startWait CALL');
+        hideErrorDialog();
     }
 
 
@@ -140,8 +145,13 @@ $(function () {
         $('#' + textAreaId).html(data.headertext);
     }
 
-    function processFail(errorThrown) {
+    function processFail(errorElemId, errorThrown) {
         console.log('processFail ERROR: ' + errorThrown);
+        // console.log('type ERROR: ' + typeof errorThrown);
+        if (!errorThrown) {
+            errorThrown = 'An unknown error occured!';
+        }
+        $('#' + errorElemId).html(errorThrown).show();
     }
 
 
@@ -162,7 +172,7 @@ $(function () {
                     processImgSuccess(data);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    processFail(errorThrown);
+                    processFail('img-error', errorThrown);
                 })
                 .always(function (data) {
                     stopWait(elemId);
@@ -178,7 +188,7 @@ $(function () {
             var optionSelectedStr = ($('input[name=optradio]:checked', ('#' + formId)).val());
             //console.log(optionSelectedStr);
             if (typeof optionSelectedStr === 'undefined') {
-                alert("select at least one option");
+                processFail('options-form-error', "select at least one option");
                 return false;
             }
 
@@ -195,7 +205,7 @@ $(function () {
                     processOptSuccess(data, 'options-form-checkbox-area', optionSelectedStr);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    processFail(errorThrown);
+                    processFail('options-form-error', errorThrown);
                 })
                 .always(function (data) {
                     stopWait(formId);
@@ -220,7 +230,7 @@ $(function () {
                     processLoadOptsToSuccess(data, 'page3-text', 'options-form-checkbox-area', optionSelectedStr);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    processFail(errorThrown);
+                    processFail('options-form-error', errorThrown);
                 })
                 .always(function (data) {
                     stopWait(elemId);
