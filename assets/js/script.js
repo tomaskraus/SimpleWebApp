@@ -1,6 +1,17 @@
 // Shorthand for $( document ).ready()
 $(function () {
 
+    //--CONFIG----------------------------------------------------------------------------
+
+    //page2
+    var selecImgServiceUrl = "backend/btnPush.php";
+
+    //page3
+
+
+    //------------------------------------------------------------------------------------
+
+
 
     $(window).on('hashchange', function () {
         // On every hash change the render function is called with the new hash.
@@ -14,12 +25,12 @@ $(function () {
         $('#page1').show();
     };
 
-    var renderPage2 = function() {
+    var renderPage2 = function () {
         $('#link-page2').addClass('active');
         $('#page2').show();
     };
 
-    var renderPage3 = function() {
+    var renderPage3 = function () {
         $('#link-page3').addClass('active');
         $('#page3').show();
     };
@@ -90,11 +101,67 @@ $(function () {
     }
 
 
+    function startWait() {
+        console.log('startWait CALL');
+    }
+
+
+    function stopWait() {
+        console.log('stopWait CALL');
+    }
+
+
+    function processSuccess(data) {
+        console.log('processSuccess CALL');
+    }
+
+    function processFail(errorThrown) {
+        console.log('processFail ERROR: ' + errorThrown);
+    }
+
+
+    function sendFromImgSelected(elemId) {
+        return function () {
+            buttonPressedStr = elemId.split('-')[1]; //number part in the name sel-x
+
+            startWait();
+            $.ajax({
+                timeout: 10000, // a lot of time for the request to be successfully completed
+                url: selecImgServiceUrl,
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({ "buttonPressed": buttonPressedStr })
+            })
+                .done(function (data) {
+                    //var result = $(data).find('boolean').text();
+                    processSuccess(data);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    processFail(errorThrown);
+                })
+                .always(function (data) {
+                    stopWait();
+                });
+
+
+        }
+    }
+
+
     function init() {
+
+        //add if more is needed
+        $('#sel-1').click(sendFromImgSelected('sel-1'));
+        $('#sel-2').click(sendFromImgSelected('sel-2'));
+        $('#sel-3').click(sendFromImgSelected('sel-3'));
+        $('#sel-4').click(sendFromImgSelected('sel-4'));
+        $('#sel-5').click(sendFromImgSelected('sel-5'));
+        $('#sel-6').click(sendFromImgSelected('sel-6'));
+
 
         var url = (window.location.href).split('/');
         //last url fragment
-        render(url[url.length-1]);
+        render(url[url.length - 1]);
     }
 
 
