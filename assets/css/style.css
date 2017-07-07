@@ -74,6 +74,11 @@
     width: 100%;
 }
 
+.selectable-image {
+    margin-bottom: 1.5em;
+    border: 3px solid white;
+}
+
 .selected-image {
     border: 3px solid black;
 }
