@@ -16,6 +16,12 @@ $(function () {
     //------------------------------------------------------------------------------------
 
 
+    // global state ----------------------------------------------------------------------
+
+        selectedImageId = null;
+
+    //------------------------------------------------------------------------------------
+
 
     $(window).on('hashchange', function () {
         // On every hash change the render function is called with the new hash.
@@ -105,6 +111,12 @@ $(function () {
         }
     }
 
+    function selectImageById(imageId) {
+        $('.selectable-image').removeClass('selected-image');
+        $('#' + imageId).addClass('selected-image');
+    }
+
+
     function hideErrorDialog() {
         $('.error').hide();
     }
@@ -127,8 +139,9 @@ $(function () {
     }
 
 
-    function processImgSuccess(data) {
+    function processImgSuccess(imageId, data) {
         console.log('processSuccess CALL');
+        selectImageById(imageId);
     }
 
 
@@ -139,6 +152,11 @@ $(function () {
 
     function processLoadOptsToSuccess(data, textAreaId, OptionsAreaId, optionSelectedStr) {
         console.log('processLoadOptsToSuccess CALL, data=' + JSON.stringify(data));
+
+        if (!data.options) {
+            processFail('options-form-error', "invalid data provided");
+            return false;
+        }
 
         var s = '';
         for (var i = 0; i < data.options.length; i++) {
@@ -175,7 +193,7 @@ $(function () {
             })
                 .done(function (data) {
                     //var result = $(data).find('boolean').text();
-                    processImgSuccess(data);
+                    processImgSuccess(elemId, data);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     processFail('img-error', errorThrown);
@@ -210,6 +228,7 @@ $(function () {
                 .done(function (data) {
                     //var result = $(data).find('boolean').text();
                     processOptSuccess(data, 'options-form-checkbox-area', optionSelectedStr);
+                    //stopWait('options-form-wait');
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     processFail('options-form-error', errorThrown);
