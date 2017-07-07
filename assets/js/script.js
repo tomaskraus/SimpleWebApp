@@ -122,8 +122,8 @@ $(function () {
     }
 
     function hidePage3Area() {
-        $('#page3-text').hide();
-        $('#options-form-checkbox-area').hide();
+        // $('#page3-text').hide();
+        // $('#options-form-checkbox-area').hide();
     }
 
     function startWait(elemId) {
