@@ -49,7 +49,8 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1em;
-    animation: spin 2s linear infinite;
+    animation: spin 1s linear infinite;
+    -webkit-animation: spin2 1s infinite linear;
     display: none;
 }
 
@@ -60,6 +61,11 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
 }
 
 .container-1 {
