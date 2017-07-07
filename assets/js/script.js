@@ -176,6 +176,9 @@ $(function () {
             errorThrown = 'An unknown error occured!';
         }
         $('#' + errorElemId).html(errorThrown).show();
+        $('html,body').animate({
+        scrollTop: $('#' + errorElemId).offset().top - 100 },
+        'medium');
     }
 
 
