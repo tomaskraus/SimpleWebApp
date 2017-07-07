@@ -127,31 +127,31 @@ $(function () {
     }
 
     function startWait(elemId) {
-        console.log('startWait CALL');
+        //console.log('startWait CALL');
         hideErrorDialog();
         $('#' + elemId).show();
     }
 
 
     function stopWait(elemId) {
-        console.log('stopWait CALL');
+        //console.log('stopWait CALL');
         $('#' + elemId).hide();
     }
 
 
     function processImgSuccess(imageId, data) {
-        console.log('processSuccess CALL');
+        //console.log('processSuccess CALL');
         selectImageById(imageId);
     }
 
 
     function processOptSuccess(data, OptionsAreaId, optionSelectedStr) {
-        console.log('processOptSuccess CALL optionSelectedStr=' + optionSelectedStr);
+        //console.log('processOptSuccess CALL optionSelectedStr=' + optionSelectedStr);
         loadOptions(OptionsAreaId, optionSelectedStr);
     }
 
     function processLoadOptsToSuccess(data, textAreaId, OptionsAreaId, optionSelectedStr) {
-        console.log('processLoadOptsToSuccess CALL, data=' + JSON.stringify(data));
+        //console.log('processLoadOptsToSuccess CALL, data=' + JSON.stringify(data));
 
         if (!data.options) {
             processFail('options-form-error', "invalid data provided");
