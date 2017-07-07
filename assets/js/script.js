@@ -30,6 +30,7 @@ $(function () {
         // Get the keyword from the url.
         var temp = url.split('/')[0];
 
+        // console.log("url=" + url);
         // console.log("temp=" + temp);
 
         // Hide whatever page is currently shown.
@@ -90,11 +91,10 @@ $(function () {
 
 
     function init() {
-        $('#link-page1').onclick = function () { render('page1'); };
-        $('#link-page2').onclick = function () { render('page2'); };
-        // $('#link-page3').onclick = renderErrorPage;
 
-        render(window.location.href);
+        var url = (window.location.href).split('/');
+        //last url fragment
+        render(url[url.length-1]);
     }
 
 
