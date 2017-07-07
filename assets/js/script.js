@@ -166,7 +166,7 @@ $(function () {
         // console.log(s);
 
         $('#' + OptionsAreaId).html(s).show();
-        $('#' + textAreaId).html(data.headertext);
+        $('#' + textAreaId).html(data.headertext).show();
     }
 
     function processFail(errorElemId, errorThrown) {
