@@ -7,7 +7,10 @@ $(function () {
     var selecImgServiceUrl = "backend/btnPush.php";
 
     //page3
+    var selecOptionServiceUrl = "backend/optionSelect.php";
 
+    //max time to wait to get results (in milliseconds)
+    serviceTimeout = 10000;
 
     //------------------------------------------------------------------------------------
 
@@ -101,12 +104,12 @@ $(function () {
     }
 
 
-    function startWait() {
+    function startWait(elemId) {
         console.log('startWait CALL');
     }
 
 
-    function stopWait() {
+    function stopWait(elemId) {
         console.log('stopWait CALL');
     }
 
@@ -124,9 +127,9 @@ $(function () {
         return function () {
             buttonPressedStr = elemId.split('-')[1]; //number part in the name sel-x
 
-            startWait();
+            startWait(elemId);
             $.ajax({
-                timeout: 10000, // a lot of time for the request to be successfully completed
+                timeout: serviceTimeout, // a lot of time for the request to be successfully completed
                 url: selecImgServiceUrl,
                 contentType: "application/json",
                 method: "POST",
@@ -140,17 +143,43 @@ $(function () {
                     processFail(errorThrown);
                 })
                 .always(function (data) {
-                    stopWait();
+                    stopWait(elemId);
                 });
 
 
-        }
+        };
     }
 
 
+    function sendFromOptionSelected(formId) {
+        return function () {
+            var optionSelectedStr = ($('input[name=optradio]:checked', ('#' + formId)).val());
+            startWait(formId);
+            $.ajax({
+                timeout: serviceTimeout, // a lot of time for the request to be successfully completed
+                url: selecOptionServiceUrl,
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({ "optionSelected": optionSelectedStr })
+            })
+                .done(function (data) {
+                    //var result = $(data).find('boolean').text();
+                    processSuccess(data);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    processFail(errorThrown);
+                })
+                .always(function (data) {
+                    stopWait(formId);
+                });
+
+            return false;
+        };
+    }
+
     function init() {
 
-        //add if more is needed
+        //page2 add if more is needed
         $('#sel-1').click(sendFromImgSelected('sel-1'));
         $('#sel-2').click(sendFromImgSelected('sel-2'));
         $('#sel-3').click(sendFromImgSelected('sel-3'));
@@ -158,6 +187,8 @@ $(function () {
         $('#sel-5').click(sendFromImgSelected('sel-5'));
         $('#sel-6').click(sendFromImgSelected('sel-6'));
 
+        //page3
+        $('#options-form-submit').click(sendFromOptionSelected('options-form'));
 
         var url = (window.location.href).split('/');
         //last url fragment
