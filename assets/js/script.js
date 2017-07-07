@@ -8,6 +8,7 @@ $(function () {
 
     //page3
     var selectOptionServiceUrl = "backend/optionSelect.php";
+    var loadOptionServiceUrl = "backend/getOptions.php";
 
     //max time to wait to get results (in milliseconds)
     serviceTimeout = 10000;
@@ -36,6 +37,7 @@ $(function () {
     var renderPage3 = function () {
         $('#link-page3').addClass('active');
         $('#page3').show();
+        loadOptions('options-form-checkbox-area', "-1");
     };
 
 
@@ -114,8 +116,28 @@ $(function () {
     }
 
 
-    function processSuccess(data) {
+    function processImgSuccess(data) {
         console.log('processSuccess CALL');
+    }
+
+
+    function processOptSuccess(data, OptionsAreaId, optionSelectedStr) {
+        console.log('processOptSuccess CALL optionSelectedStr=' + optionSelectedStr);
+        loadOptions(OptionsAreaId, optionSelectedStr);
+    }
+
+    function processLoadOptsToSuccess(data, textAreaId, OptionsAreaId, optionSelectedStr) {
+        console.log('processLoadOptsToSuccess CALL, data=' + JSON.stringify(data));
+
+        var s = '';
+        for (var i = 0; i < data.options.length; i++) {
+            s += '<div class="radio"><label><input type="radio" name="optradio" value="'
+            + data.options[i].value + '" required>' + data.options[i].value + '</label></div>\n';
+        }
+        // console.log(s);
+
+        $('#' + OptionsAreaId).html(s);
+        $('#' + textAreaId).html(data.headertext);
     }
 
     function processFail(errorThrown) {
@@ -137,7 +159,7 @@ $(function () {
             })
                 .done(function (data) {
                     //var result = $(data).find('boolean').text();
-                    processSuccess(data);
+                    processImgSuccess(data);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     processFail(errorThrown);
@@ -154,6 +176,12 @@ $(function () {
     function sendFromOptionSelected(formId) {
         return function () {
             var optionSelectedStr = ($('input[name=optradio]:checked', ('#' + formId)).val());
+            //console.log(optionSelectedStr);
+            if (typeof optionSelectedStr === 'undefined') {
+                alert("select at least one option");
+                return false;
+            }
+
             startWait(formId);
             $.ajax({
                 timeout: serviceTimeout, // a lot of time for the request to be successfully completed
@@ -164,7 +192,7 @@ $(function () {
             })
                 .done(function (data) {
                     //var result = $(data).find('boolean').text();
-                    processSuccess(data);
+                    processOptSuccess(data, 'options-form-checkbox-area', optionSelectedStr);
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     processFail(errorThrown);
@@ -176,6 +204,38 @@ $(function () {
             return false;
         };
     }
+
+
+    function loadOptions(elemId, optionSelectedStr) {
+            startWait(elemId);
+            $.ajax({
+                timeout: serviceTimeout, // a lot of time for the request to be successfully completed
+                url: loadOptionServiceUrl,
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({ "optionSelected": optionSelectedStr })
+            })
+                .done(function (data) {
+                    //var result = $(data).find('boolean').text();
+                    processLoadOptsToSuccess(data, 'page3-text', 'options-form-checkbox-area', optionSelectedStr);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    processFail(errorThrown);
+                })
+                .always(function (data) {
+                    stopWait(elemId);
+                });
+
+            return false;
+
+
+
+
+
+
+
+    }
+
 
     function init() {
 
